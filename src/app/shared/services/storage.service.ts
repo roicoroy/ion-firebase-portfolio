@@ -6,7 +6,9 @@ import { AngularFireStorage, AngularFireUploadTask } from '@angular/fire/storage
 })
 export class StorageService {
 
-  constructor(private storage: AngularFireStorage) { }
+  constructor(
+    private storage: AngularFireStorage
+  ) { }
 
   get(path: string) {
     return this.storage.ref(path);
