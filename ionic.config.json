@@ -1,0 +1,7 @@
+{
+  "name": "firebase-sidemenu",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
