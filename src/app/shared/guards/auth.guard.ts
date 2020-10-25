@@ -20,8 +20,8 @@ export class AuthGuard implements CanActivate {
       if (!isSignedIn) {
         // const rootPath = state.url.slice(0, state.url.indexOf(route.url[route.url.length - 1].path));
         // this.navigation.setRootPath(rootPath);
-        this.navigation.redirectTo('login');
-        // this.router.navigateByUrl('login');
+        // this.navigation.redirectTo('login');
+        this.router.navigateByUrl('login');
         resolve(false);
       } else {
         resolve(true);
