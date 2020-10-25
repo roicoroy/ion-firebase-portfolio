@@ -1,9 +1,43 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>register</ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-
+  <ion-grid>
+    <ion-row class='ion-text-center'>
+      <ion-col size="12">
+        <img [src]="logo" alt="Logo Admin">
+        <h5>Register page</h5>
+        <form (ngSubmit)="onSubmit($event)" #registerForm>
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating" for="inputEmail">Email Address</ion-label>
+              <ion-input type="email" name="inputEmail" placeholder="Enter your email" [(ngModel)]="email" required>
+              </ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating" for="inputPassword">Password</ion-label>
+              <ion-input type="password" name="inputPassword" placeholder="Password" [(ngModel)]="password" required>
+              </ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-list>
+            <ion-item>
+              <ion-label position="floating" for="inputPasswordConfirmation">Repeat password</ion-label>
+              <ion-input type="password" name="inputPasswordConfirmation" placeholder="Repeat Password"
+                [(ngModel)]="passwordConfirmation" required></ion-input>
+            </ion-item>
+          </ion-list>
+          <ion-button type="submit">
+            <ion-text color="light">
+              Register
+            </ion-text>
+          </ion-button>
+        </form>
+      </ion-col>
+      <ion-col size="12">
+        <ion-text (click)='navigate()' color="primary">
+          <span>Sign In?</span>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

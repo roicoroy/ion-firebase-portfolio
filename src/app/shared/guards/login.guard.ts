@@ -20,21 +20,23 @@ export class LoginGuard implements CanActivate {
     return new Promise(async (resolve, reject) => {
       const isSignedIn = await this.auth.isSignedIn();
       if (isSignedIn) {
+      console.log(isSignedIn);
         // const rootPath = state.url.slice(0, state.url.indexOf(route.url[route.url.length - 1].path));
         // this.navigation.setRootPath(rootPath);
-        this.navigation.redirectTo('tabs/home');
-        // this.router.navigateByUrl('home');
+        // this.navigation.redirectTo('home');
+        this.router.navigateByUrl('home');
         resolve(false);
-      } else {
-        const registrationEnabled = await this.config.isRegistrationEnabled();
+      } 
+      else {
+        // const registrationEnabled = await this.config.isRegistrationEnabled();
         //console.log(registrationEnabled);
-        if (!registrationEnabled) {
-          resolve(true);
-        } else {
+        // if (!registrationEnabled) {
+        //   resolve(true);
+        // } else {
         // this.navigation.redirectTo('register');
-        this.router.navigateByUrl('register');
+        this.router.navigateByUrl('login');
         resolve(false);
-        }
+        // }
       }
     });
   }

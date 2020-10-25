@@ -1,0 +1,103 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="navigateBack()">
+        <ion-icon slot="start" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-header>
+            <ion-img [src]="avatarSrc" alt="User Avatar"></ion-img>
+            <div>
+              <ion-input type="file" accept="image/*" id="userProfilePicture" (change)="onAvatarChange($event)">
+              </ion-input>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ (userData?.birthDate) || '' }}</p>
+            <p>{{ (userData?.firstName || '') + ' ' + (userData?.lastName || '') }}</p>
+            <p>{{ allRoles[userData?.role] || '' }}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col size="12">
+        <ion-list>
+          <ion-item>
+            <ion-label>Email</ion-label>
+            {{ userData?.email || '' }}
+          </ion-item>
+          <ion-item>
+            <ion-label>Bio</ion-label>
+            {{ userData?.bio || '' }}
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12">
+        <form #editUserForm>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <ion-label for="firstName">{{ 'FirstName' }}</ion-label>
+              <ion-input type="text" id="firstName" [(ngModel)]="firstName" name="firstName" required #firstNameInput>
+              </ion-input>
+            </div>
+            <div class="form-group col-md-6">
+              <ion-label for="lastName">Last Name</ion-label>
+              <ion-input type="text" id="lastName" [(ngModel)]="lastName" name="lastName" required #lastNameInput>
+              </ion-input>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <ion-label for="emailAddress">Email</ion-label>
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="material-icons">&#xE0BE;</i>
+                  </div>
+                </div>
+                <ion-input type="email" id="emailAddress" [(ngModel)]="email" name="email" required #emailInput>
+                </ion-input>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="password">{{ 'Password' }}</label>
+              <div class="input-group input-group-seamless">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <i class="material-icons">lock</i>
+                  </div>
+                </div>
+                <input type="password" id="password" [(ngModel)]="password" name="password" minlength="6" required
+                  #passwordInput>
+              </div>
+            </div>
+          </div>
+
+          <ion-row>
+            <ion-col size="12">
+              <ion-label for='birthDate'>Date of birth</ion-label>
+              <input type="date" id="birthDate" [(ngModel)]="birthDate" name="birthDate">
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="12">
+              <ion-label for="userBio">Bio</ion-label>
+              <ion-textarea [(ngModel)]="bio" name="userBio" placeholder="BioPlaceholder"></ion-textarea>
+            </ion-col>
+          </ion-row>
+          <ion-button type="submit" (click)="updateUser($event, editUserForm)">
+            Update!
+          </ion-button>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

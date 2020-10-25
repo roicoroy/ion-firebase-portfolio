@@ -10,7 +10,6 @@ export class AuthGuard implements CanActivate {
 
   constructor(
     private auth: AuthService,
-    private navigation: NavigationService,
     private router: Router
   ) { }
 
@@ -18,10 +17,7 @@ export class AuthGuard implements CanActivate {
     return new Promise(async (resolve, reject) => {
       const isSignedIn = await this.auth.isSignedIn();
       if (!isSignedIn) {
-        // const rootPath = state.url.slice(0, state.url.indexOf(route.url[route.url.length - 1].path));
-        // this.navigation.setRootPath(rootPath);
-        this.navigation.redirectTo('login');
-        // this.router.navigateByUrl('login');
+        this.router.navigateByUrl('login');
         resolve(false);
       } else {
         resolve(true);
