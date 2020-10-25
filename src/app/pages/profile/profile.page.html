@@ -16,4 +16,87 @@
     </ion-toolbar>
   </ion-header>
 
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card>
+          <img [src]="user?.avatar | async " alt="User Avatar">
+          <ion-card-content *ngIf="canEditProfile()">
+            <ion-button (click)="navigateToEdit(user?.id)" expand="block" fill="clear" shape="round">
+              Open Edit Page
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-row>
+          <ion-col size="12">
+            <span>First Name: </span>
+            <span>{{ user?.firstName || '' }}</span>
+          </ion-col>
+          <ion-col size="12">
+            <span>Last Name: </span>
+            <span>{{ user?.lastName || '' }}</span>
+          </ion-col>
+          <ion-col size="12">
+            <span>Email: </span>
+            <span>{{ user?.email || '' }}</span>
+          </ion-col>
+          <ion-col size="12">
+            <span>Birth Date: </span>
+            <span>{{ (user?.birthDate) || '' }}</span>
+          </ion-col>
+          <ion-col size="12">
+            <ion-text *ngIf="user?.bio" color="primary">
+              {{ user.bio }}
+            </ion-text>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+
+      <!-- <ion-col size="12">
+        <div class="row">
+          <div class="col-6 col-sm-3 text-center">
+            <h4 class="m-0">{{ statistics?.posts || 0 }}</h4>
+            <span class="text-light text-uppercase">{{ 'Posts' }}</span>
+          </div>
+          <div class="col-6 col-sm-3 text-center">
+            <h4 class="m-0">{{ statistics?.publishedPosts || 0 }}%</h4>
+            <span class="text-light text-uppercase">{{ 'Published' }}</span>
+          </div>
+          <div class="col-6 col-sm-3 text-center">
+            <h4 class="m-0">{{ statistics?.comments || 0 }}</h4>
+            <span class="text-light text-uppercase">{{ 'Comments' }}</span>
+          </div>
+          <div class="col-6 col-sm-3 text-center">
+            <h4 class="m-0">{{ statistics?.pages || 0 }}</h4>
+            <span class="text-light text-uppercase">{{ 'Pages' }}</span>
+          </div>
+        </div>
+      </ion-col> -->
+    </ion-row>
+    <div *ngIf="latestPosts | async as posts">
+      <ion-row *ngFor="let post of posts">
+        <ion-card>
+          <img [src]="post.image.url | async">
+        </ion-card>
+        <ion-col size='12'>
+          post title: {{ post.title }}
+          post slug: {{ '/' + post.slug }}
+        </ion-col>
+        <ion-col size='12'>
+          Post date: {{ post.date }}
+        </ion-col>
+        <ion-col size='12'>
+          Status:
+          <ion-text color="{{ allPostsStatus.colors[post.status] }}">
+            {{ allPostsStatus.labels[post.status] }}
+          </ion-text>
+        </ion-col>
+        <ion-col size='12' *ngFor="let categoryId of post.categories; let i = index">
+          Category: {{ allPostsCategories[categoryId]?.label }}
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
 </ion-content>

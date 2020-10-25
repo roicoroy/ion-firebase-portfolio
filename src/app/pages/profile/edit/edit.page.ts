@@ -103,7 +103,6 @@ export class EditPage implements OnInit {
       }).catch((error: Error) => {
         console.error(error);
       }).finally(() => {
-        // console.log('finally');
         return this.router.navigateByUrl('profile');
       });
     }

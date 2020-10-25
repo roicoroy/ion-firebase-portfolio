@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
   onSubmit() {
     this.auth.signIn(this.email, this.password, this.rememberMe)
       .then(() => {
-        this.navigation.redirectTo('home');
+        this.router.navigateByUrl('home');
       })
       .catch((error: Error) => {
         this.error = error.message;

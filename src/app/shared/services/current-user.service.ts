@@ -18,9 +18,9 @@ export class CurrentUserService {
     private users: UsersService,
     private db: DatabaseService
   ) {
-    this.db.setCurrentUser(this); // used to avoid circular dependency issue (when injecting currentUser service into users or database services)
+    this.db.setCurrentUser(this);
   }
-  
+
   get() {
     return this.data ? this.data : this.dataChange.pipe(take(1)).toPromise();
   }
