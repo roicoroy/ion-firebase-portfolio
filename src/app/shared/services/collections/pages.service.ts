@@ -1,27 +1,24 @@
 import { Injectable } from '@angular/core';
 import { DatabaseService } from '../database.service';
 import { UsersService } from './users.service';
-import { DocumentTranslationsService } from './abstract/document-translations.service';
 import { Page, PageBlock, PageTranslation } from '../../models/collections/page.model';
 import { now } from '../../helpers/functions.helper';
 import { mergeMap, take } from 'rxjs/operators';
 // import { SettingsService } from '../settings.service';
-import { Language } from '../../models/language.model';
+// import { Language } from '../../models/language.model';
 import { Observable, of } from 'rxjs';
 import { QueryFn } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PagesService extends DocumentTranslationsService {
+export class PagesService  {
 
   constructor(
     protected db: DatabaseService,
     // private settings: SettingsService,
     private users: UsersService
-  ) {
-    super(db, 'pageTranslations');
-  }
+  ) { }
 
   formatBlocks(blocks: PageBlock[]) {
     let formattedBlocks = {};
@@ -54,15 +51,11 @@ export class PagesService extends DocumentTranslationsService {
     };
     return new Promise((resolve, reject) => {
       this.db.addDocument('pages', page).then((doc: any) => {
-        this.addTranslation(data.lang, doc.id, translationId).then((translation: any) => {
-          doc.set({ translationId: translationId || translation.id}, { merge: true }).then(() => {
-            resolve();
-          }).catch((error: Error) => {
-            reject(error);
-          });
-        }).catch((error: Error) => {
-          reject(error);
-        });
+        // doc.set({ translationId: translationId || translation.id}, { merge: true }).then(() => {
+        //   resolve();
+        // }).catch((error: Error) => {
+        //   reject(error);
+        // });
       }).catch((error: Error) => {
         reject(error);
       });
@@ -75,9 +68,9 @@ export class PagesService extends DocumentTranslationsService {
 
   get(id: string) {
     return this.db.getDocument('pages', id).pipe(mergeMap(async (page: Page) => {
-      const translations = page.translationId ? await this.getTranslations(page.translationId).pipe(take(1)).toPromise() : {};
+      // const translations = page.translationId ? await this.getTranslations(page.translationId).pipe(take(1)).toPromise() : {};
       page.id = id;
-      page.translations = translations;
+      // page.translations = translations;
       return page;
     }));
   }
@@ -142,12 +135,8 @@ export class PagesService extends DocumentTranslationsService {
 
   delete(id: string, data: { lang: string, translationId: string, translations: PageTranslation }) {
     return new Promise((resolve, reject) => {
-      this.deleteTranslation(data.translationId, data.lang, data.translations).then(() => { // should be done before deleting document (pages observable will be synced before if not)
-        this.db.deleteDocument('pages', id).then(() => {
-          resolve();
-        }).catch((error: Error) => {
-          reject(error);
-        });
+      this.db.deleteDocument('pages', id).then(() => {
+        resolve();
       }).catch((error: Error) => {
         reject(error);
       });

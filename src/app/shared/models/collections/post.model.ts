@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs';
-import { DocumentTranslation } from './document-translation';
 
 export interface Post {
   id?: string,
@@ -27,4 +26,4 @@ export enum PostStatus {
   Trash = 'trash'
 }
 
-export interface PostTranslation extends DocumentTranslation { }
+export interface PostTranslation { }

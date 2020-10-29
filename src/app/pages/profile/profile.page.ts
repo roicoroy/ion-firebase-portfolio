@@ -1,12 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
 import { User } from 'firebase';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Category } from 'src/app/shared/models/collections/category.model';
 import { Post, PostStatus } from 'src/app/shared/models/collections/post.model';
-import { Language } from 'src/app/shared/models/language.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CategoriesService } from 'src/app/shared/services/collections/categories.service';
 import { PagesService } from 'src/app/shared/services/collections/pages.service';
@@ -26,7 +25,7 @@ export class ProfilePage implements OnInit, OnDestroy {
   allRoles: object = {};
   latestPosts: Observable<any[]>;
   postsLanguage: string;
-  languages: Language[];
+
   allPostsStatus: { labels: object, colors: object };
   allPostsCategories: Category[] = [];
   private subscription: Subscription = new Subscription();
@@ -40,7 +39,6 @@ export class ProfilePage implements OnInit, OnDestroy {
     private users: UsersService,
     private posts: PostsService,
     private categories: CategoriesService,
-    private route: ActivatedRoute,
     private pages: PagesService,
     private currentUser: CurrentUserService,
     public modalController: ModalController,

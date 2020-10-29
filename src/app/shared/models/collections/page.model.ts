@@ -1,4 +1,4 @@
-import { DocumentTranslation } from './document-translation';
+
 import { Observable } from 'rxjs';
 
 export interface Page {
@@ -30,4 +30,4 @@ export enum PageBlockType {
   JSON = 'json'
 }
 
-export interface PageTranslation extends DocumentTranslation { }
+export interface PageTranslation { }

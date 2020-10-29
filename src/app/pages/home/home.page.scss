@@ -22,7 +22,7 @@
 .masonry.bordered {
     column-rule: 2px solid var(--ion-color-primary);
     column-gap: 10px;
-    // display: inline-flex;
+    display: list-item;
 }
 
 .masonry.bordered .brick {

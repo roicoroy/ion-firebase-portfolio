@@ -34,31 +34,14 @@
       </ion-col>
       <ion-col>
         <ion-row>
-          <ion-col>
-            First Name:
+          <ion-col size='12'>
+            Full name: {{ user?.firstName || '' }} {{ user?.lastName || '' }}
           </ion-col>
-          <ion-col>
-            Last Name:
+          <ion-col size='12'>
+            Email: {{ user?.email || '' }}
           </ion-col>
-          <ion-col>
-            Email:
-          </ion-col>
-          <ion-col>
-            Role
-          </ion-col>
-        </ion-row>
-        <ion-row>
-          <ion-col>
-            {{ user?.firstName || '' }}
-          </ion-col>
-          <ion-col>
-            {{ user?.lastName || '' }}
-          </ion-col>
-          <ion-col>
-            {{ user?.email || '' }}
-          </ion-col>
-          <ion-col>
-            {{ user?.role }}
+          <ion-col size='12'>
+            Role: {{ user?.role }}
           </ion-col>
         </ion-row>
       </ion-col>

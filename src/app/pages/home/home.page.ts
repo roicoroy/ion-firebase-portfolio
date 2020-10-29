@@ -4,7 +4,6 @@ import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Category } from 'src/app/shared/models/collections/category.model';
 import { Post } from 'src/app/shared/models/collections/post.model';
-import { Language } from 'src/app/shared/models/language.model';
 import { AuthService } from 'src/app/shared/services/auth.service';
 import { CategoriesService } from 'src/app/shared/services/collections/categories.service';
 import { PostsService } from 'src/app/shared/services/collections/posts.service';
@@ -24,7 +23,6 @@ export class HomePage implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   allStatus: { labels: object, colors: object };
   allCategories: Category[] = [];
-  allLanguages: Language[] = [];
   private routeParamsChange: Subject<void> = new Subject<void>();
   isLoading: boolean = true;
 
@@ -87,12 +85,11 @@ export class HomePage implements OnInit, OnDestroy {
     );
   }
   ngOnDestroy() {
-    // this.subscription.unsubscribe();
-    // this.routeParamsChange.next();
+    this.subscription.unsubscribe();
+    this.routeParamsChange.next();
   }
   logout() {
     this.auth.signOut().then(() => {
-      // this.navigation.redirectTo('login');
       this.router.navigateByUrl('login');
     }).catch((error: Error) => {
       console.log(error.message);
