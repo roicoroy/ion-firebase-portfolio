@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { first, map } from 'rxjs/operators';
 import { auth } from 'firebase/app';
 import { CurrentUserService } from './current-user.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class AuthService {
 
   constructor(
     private afa: AngularFireAuth,
-    private currentUser: CurrentUserService
+    private currentUser: CurrentUserService,
+    private router:Router
   ) {
     // console.log('auth:::::   ',this.afa.auth)l
     this.afa.auth.onAuthStateChanged((user: firebase.User) => {
@@ -38,6 +40,7 @@ export class AuthService {
     return new Promise((resolve, reject) => {
       if (!!this.firebaseUser) {
         console.log('already signed in!');
+        this.router.navigateByUrl('home')
         resolve();
       } else {
         // Sign in

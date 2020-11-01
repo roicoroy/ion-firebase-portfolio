@@ -5,8 +5,14 @@
 
         <ion-list id="inbox-list">
 
-          <ion-list-header>Inbox</ion-list-header>
-          <ion-note>hi@ionicframework.com</ion-note>
+          <ion-avatar>
+            <!-- <img [src]="avatar" /> -->
+          <img class="user-avatar rounded-circle mr-2" [src]="((currentUser.data?.avatar | async))" alt="User Avatar">
+
+          </ion-avatar>
+
+          <ion-list-header>Hello {{ currentUser.data?.firstName }}</ion-list-header>
+          <ion-note>{{ currentUser.data?.email }}</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item (click)="selectedIndex = i" routerDirection="root" [routerLink]="[p.url]" lines="none"
@@ -15,10 +21,8 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-
         </ion-list>
-
-        <ion-list id="labels-list">
+        <!-- <ion-list id="labels-list">
           <ion-list-header>Auth</ion-list-header>
           <ion-item lines="none" (click)='login()'>
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
@@ -28,8 +32,7 @@
             <ion-icon slot="start" ios="bookmark-outline" md="bookmark-sharp"></ion-icon>
             <ion-label>Logout</ion-label>
           </ion-item>
-        </ion-list>
-
+        </ion-list> -->
       </ion-content>
     </ion-menu>
     <ion-router-outlet id="main-content"></ion-router-outlet>
