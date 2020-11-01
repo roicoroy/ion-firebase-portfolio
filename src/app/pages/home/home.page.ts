@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ModalController } from '@ionic/angular';
 import { Observable, Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { Category } from 'src/app/shared/models/collections/category.model';
@@ -12,6 +13,7 @@ import { PostsService } from 'src/app/shared/services/collections/posts.service'
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 import { DatabaseService } from 'src/app/shared/services/database.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { DetailsComponent } from './details/details.component';
 declare var $: any;
 
 @Component({
@@ -42,7 +44,17 @@ export class HomePage implements OnInit, OnDestroy {
     public navigation: NavigationService,
     public currentUser: CurrentUserService,
     protected db: DatabaseService,
+    public modalController: ModalController
   ) { }
+
+
+  async presentModal() {
+    const modal = await this.modalController.create({
+      component: DetailsComponent,
+      cssClass: 'my-custom-class'
+    });
+    return await modal.present();
+  }
 
   ngOnInit() {
     this.getPosts();

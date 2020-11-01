@@ -7,18 +7,14 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        Home
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
 
   <ion-grid>
     <ion-row>
       <ion-col size="12">
+        <ion-button (click)="presentModal()" expand="block" fill="clear" shape="round">
+          Open Details Modal
+        </ion-button>
         <div class="masonry bordered">
           <div class="brick" *ngFor="let post of allPosts | async">
             <img [src]="post.image.url | async ">
