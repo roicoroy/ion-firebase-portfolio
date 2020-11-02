@@ -13,6 +13,7 @@ import { PostsService } from 'src/app/shared/services/collections/posts.service'
 import { UsersService } from 'src/app/shared/services/collections/users.service';
 import { CurrentUserService } from 'src/app/shared/services/current-user.service';
 import { NavigationService } from 'src/app/shared/services/navigation.service';
+import { ThemeService } from 'src/app/shared/services/theme.service';
 
 @Component({
   selector: 'app-profile',
@@ -44,7 +45,22 @@ export class ProfilePage implements OnInit, OnDestroy {
     public modalController: ModalController,
     private router: Router,
     private auth: AuthService,
+    private theme: ThemeService
   ) { }
+
+  enableDark() {
+    this.theme.enableDark();
+    // localStorage.setItem('theme', 'dark');
+  }
+  enableLight() {
+    this.theme.enableLight();
+    // localStorage.setItem('theme', 'light');
+  }
+  update(e) {
+    e.detail.checked ? this.enableDark() : this.enableLight();
+  }
+
+
   navigateToEdit(userId) {
     this.router.navigate(['edit'], {
       queryParams: { "userId": userId }

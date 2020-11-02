@@ -38,7 +38,7 @@ export class PagesService  {
   }
 
   
-  add(data: Page, translationId?: string) {
+  add(data: Page) {
     const page: Page = {
       title: data.title,
       lang: data.lang,
@@ -63,7 +63,7 @@ export class PagesService  {
   }
 
   translate(data: Page) {
-    return this.add(data, data.translationId);
+    return this.add(data);
   }
 
   get(id: string) {

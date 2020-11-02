@@ -7,13 +7,19 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
+import { LightboxModule } from 'src/app/shared/ng-gallery/lightbox/src/public_api';
+import { GalleryModule } from 'src/app/shared/ng-gallery/src/public-api';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    GalleryModule,
+    LightboxModule.withConfig({
+      keyboardShortcuts: false
+    }),
   ],
   declarations: [HomePage]
 })
