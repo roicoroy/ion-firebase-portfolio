@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { HomePageRoutingModule } from './home-routing.module';
 
 import { HomePage } from './home.page';
-import { DetailsComponent } from './details/details.component';
+import { DetailsComponent } from './details-component/details.component';
+import { GalleryModule } from 'src/app/shared/ng-gallery/src/public-api';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
+    GalleryModule
   ],
   declarations: [
     HomePage,

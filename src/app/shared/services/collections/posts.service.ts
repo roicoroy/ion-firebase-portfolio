@@ -112,7 +112,7 @@ export class PostsService extends DocumentTranslationsService {
     });
   }
 
-  get(id: string) {
+  get(id: string):Observable<any> {
     return this.db.getDocument('posts', id).pipe(mergeMap(async (post: Post) => {
       const translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
       post.id = id;

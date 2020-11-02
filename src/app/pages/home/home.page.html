@@ -20,11 +20,40 @@
         <ion-button (click)="presentModal()" expand="block" fill="clear" shape="round">
           Open Details Modal
         </ion-button>
-        <div class="masonry bordered">
+        <div class="masonry gutterless">
           <div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
+            <ion-button (click)="navigateToEdit(post.id)">
+              <img [src]="post.image.url | async">
+            </ion-button>
           </div>
         </div>
+      </ion-col>
+
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="12">
+
+        <gallery id="basic" fluid [items]="imageSrc" imageSize="contain" autoPlay="true" thumbPosition="top">
+        </gallery>
+        <!-- {{ imagesArray }} -->
+        <!-- {{map1}} -->
+        <!-- <div *ngFor="let img of imagesArray">
+ 
+          {{ img.id }}
+        </div> -->
+
+
+        <!-- {{ images | json }} -->
+
+        <!-- <div class="masonry bordered">
+          <div class="brick" *ngFor="let img of imagesArray, index as i">
+            <ion-button (click)="presentModal(imagesArray, i)">
+              <ion-img [src]="img"></ion-img>
+            </ion-button>
+            {{i}}
+          </div>
+        </div> -->
       </ion-col>
     </ion-row>
   </ion-grid>

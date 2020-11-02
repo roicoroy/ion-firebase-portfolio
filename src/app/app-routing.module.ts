@@ -44,6 +44,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/profile/edit/edit.module').then(m => m.EditPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'details',
+    loadChildren: () => import('./pages/home/details/details.module').then( m => m.DetailsPageModule)
+  }
 ];
 
 @NgModule({
