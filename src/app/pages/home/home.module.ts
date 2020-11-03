@@ -9,6 +9,7 @@ import { HomePageRoutingModule } from './home-routing.module';
 import { HomePage } from './home.page';
 import { DetailsComponent } from './details-component/details.component';
 import { GalleryModule } from 'src/app/shared/ng-gallery/src/public-api';
+import { LightboxModule } from 'src/app/shared/ng-gallery/lightbox/src/public_api';
 
 @NgModule({
   imports: [
@@ -16,7 +17,11 @@ import { GalleryModule } from 'src/app/shared/ng-gallery/src/public-api';
     FormsModule,
     IonicModule,
     HomePageRoutingModule,
-    GalleryModule
+    GalleryModule,
+    // LightboxModule,
+    LightboxModule.withConfig({
+      keyboardShortcuts: false
+    }),
   ],
   declarations: [
     HomePage,

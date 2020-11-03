@@ -16,7 +16,9 @@ import { NavigationService } from 'src/app/shared/services/navigation.service';
 import { DetailsComponent } from './details-component/details.component';
 declare var $: any;
 import { MediaChange, MediaObserver } from '@angular/flex-layout';
-import { GalleryItem, ImageItem } from 'src/app/shared/ng-gallery/src/public-api';
+import { Gallery, GalleryItem, ImageItem } from 'src/app/shared/ng-gallery/src/public-api';
+import { StorageService } from 'src/app/shared/services/storage.service';
+import { Lightbox } from 'src/app/shared/ng-gallery/lightbox/src/public_api';
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -24,12 +26,15 @@ import { GalleryItem, ImageItem } from 'src/app/shared/ng-gallery/src/public-api
 })
 export class HomePage implements OnInit, OnDestroy {
 
-  allPosts: Observable<any[]>;
+  allPosts: any;
   private subscription: Subscription = new Subscription();
   public localPosts: any;
   isLoading: boolean = true;
   postsArray: any = [];
   imagesArray: any = [];
+  items: GalleryItem[];
+  imageSrc: GalleryItem[];
+  map1: any = [];
   constructor(
     private auth: AuthService,
     private router: Router,
@@ -37,69 +42,51 @@ export class HomePage implements OnInit, OnDestroy {
     public navigation: NavigationService,
     public currentUser: CurrentUserService,
     protected db: DatabaseService,
-    public modalController: ModalController
+    public modalController: ModalController,
+    private fbStorage: StorageService,
+    public gallery: Gallery,
+    public lightbox: Lightbox,
   ) { }
-
-  async presentModal(imagesArray: any = [], index) {
-    const modal = await this.modalController.create({
-      component: DetailsComponent,
-      cssClass: 'my-custom-class',
-      componentProps: {
-        imagesArray,
-        index
-      }
-    });
-    return await modal.present();
-  }
-
   navigateToEdit(id) {
     this.router.navigate(['details'], {
       queryParams: { "id": id }
     });
   }
-  images: any = '';
+
   ngOnInit() {
     this.getPosts();
   }
-  imageSrc: any;
-  map1: any
+
   getPosts() {
-    this.allPosts = this.posts.getWhereFn(ref => {
-      let query: any = ref;
-      query = query.orderBy('createdAt', 'desc');
-      return query;
-    }, true).pipe(
+    this.allPosts = this.posts.getAll().pipe(
       map((posts: Post[]) => {
-        let myPosts: any = posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt);
-        this.imagesArray = [].concat(myPosts);
+        // let myPosts: any = posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt);
+        this.imagesArray = [].concat(posts);
         this.imagesArray.map(x => {
-          // console.log(x);
           this.posts.getImageUrl(x.image.path as string).subscribe((res) => {
-            this.map1 = new ImageItem({ src: res, thumb: res });
+            this.map1.push(new ImageItem({ src: res, thumb: res }));
             this.imageSrc = [].concat(...this.map1);
-            console.log(this.imageSrc);
+            console.log(this.imageSrc)
+            return this.imageSrc;
           });
-          // .pipe(take(1))
-          // .toPromise().then((imageUrl: any) => {
-          //   let concatUrlArray =([(imageUrl)]);
-          //   // concatUrlArray.forEach(el => {
-          //   //   let myObj:any = new ImageItem({ src: el, thumb: el });
-          //   //   console.log([...myObj]);
-          //   // });
-          //   // this.map1 = [].concat(myObj);
-          //   console.log(concatUrlArray);
-          //   // return this.map1 = new ImageItem({ src: imageUrl, thumb: imageUrl })
-          // });
         });
-        // console.log(this.map1);
-        // console.log(this.imagesArray);
-        return myPosts;
+        // return this.imageSrc;
       }),
     );
+    // return this.allPosts;
+// 
+  }
+
+  openGallery() {
+    this.gallery.ref('lightbox', {
+      thumbPosition: 'top',
+      imageSize: 'cover',
+    }).load(this.imageSrc);
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.gallery.ref('lightbox').destroy();
   }
 
   logout() {

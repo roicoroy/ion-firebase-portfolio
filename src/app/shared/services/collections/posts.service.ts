@@ -10,12 +10,12 @@ import { getEmptyImage, getLoadingImage } from '../../helpers/assets.helper';
 import { Language } from '../../models/language.model';
 import { UsersService } from './users.service';
 import { QueryFn } from '@angular/fire/firestore';
-import { DocumentTranslationsService } from './abstract/document-translations.service';
+// import { DocumentTranslationsService } from './abstract/document-translations.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PostsService extends DocumentTranslationsService {
+export class PostsService {
 
   private allStatus: object = {};
   private statusColors: object = {
@@ -31,7 +31,7 @@ export class PostsService extends DocumentTranslationsService {
     // private settings: SettingsService,
     private users: UsersService
   ) {
-    super(db, 'postTranslations');
+    // super(db, 'postTranslations');
     Object.keys(PostStatus).forEach((key: string) => {
       this.allStatus[PostStatus[key]] = key;
     });
@@ -70,15 +70,15 @@ export class PostsService extends DocumentTranslationsService {
     return new Promise((resolve, reject) => {
       this.db.addDocument('posts', post).then((doc: any) => {
         this.uploadImage(doc.id, data.image as File).then(() => {
-          this.addTranslation(data.lang, doc.id, translationId).then((translation: any) => {
-            doc.set({ translationId: translationId || translation.id}, { merge: true }).then(() => {
-              resolve();
-            }).catch((error: Error) => {
-              reject(error);
-            });
-          }).catch((error: Error) => {
-            reject(error);
-          });
+          // this.addTranslation(data.lang, doc.id, translationId).then((translation: any) => {
+            // doc.set({ translationId: translationId || translation.id}, { merge: true }).then(() => {
+            //   resolve();
+            // }).catch((error: Error) => {
+            //   reject(error);
+            // });
+          // }).catch((error: Error) => {
+          //   reject(error);
+          // });
         }).catch((error: Error) => {
           reject(error);
         });
@@ -88,9 +88,9 @@ export class PostsService extends DocumentTranslationsService {
     });
   }
 
-  translate(data: Post) {
-    return this.add(data, data.translationId);
-  }
+  // translate(data: Post) {
+  //   return this.add(data, data.translationId);
+  // }
 
   private uploadImage(id: string, imageFile: File) {
     return new Promise((resolve, reject) => {
@@ -114,9 +114,9 @@ export class PostsService extends DocumentTranslationsService {
 
   get(id: string):Observable<any> {
     return this.db.getDocument('posts', id).pipe(mergeMap(async (post: Post) => {
-      const translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
+      // const translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
       post.id = id;
-      post.translations = translations;
+      // post.translations = translations;
       return post;
     }));
   }
@@ -143,15 +143,16 @@ export class PostsService extends DocumentTranslationsService {
       //posts.forEach((post: Post) => { // forEach loop doesn't seems to work well with async/await
       for (let post of posts) {
         // console.log(post);
-        post.translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
+        // post.translations = await this.getTranslations(post.translationId).pipe(take(1)).toPromise();
         // console.log(post.translations);
-        const postLanguages = Object.keys(post.translations);
+        // const postLanguages = Object.keys(post.translations);
         post.image = {
           path: post.image,
           url: post.image ? merge(of(getLoadingImage()), this.getImageUrl(post.image as string)) : of(getEmptyImage())
         };
         post.author = post.createdBy ? this.users.getFullName(post.createdBy) : of(null);
         // post.isTranslatable = !activeSupportedLanguages.every((lang: string) => postLanguages.includes(lang));
+        // console.log(post);
       }
       //});
       return posts;
@@ -222,7 +223,7 @@ export class PostsService extends DocumentTranslationsService {
       }
     }
     return new Promise((resolve, reject) => {
-      this.deleteTranslation(data.translationId, data.lang, data.translations).then(() => { // should be done before deleting document (posts observable will be synced before if not)
+      // this.deleteTranslation(data.translationId, data.lang, data.translations).then(() => { // should be done before deleting document (posts observable will be synced before if not)
         this.db.deleteDocument('posts', id).then(() => {
           this.deleteImage(data.imagePath).then(() => {
             resolve();
@@ -232,9 +233,9 @@ export class PostsService extends DocumentTranslationsService {
         }).catch((error: Error) => {
           reject(error);
         });
-      }).catch((error: Error) => {
-        reject(error);
-      });
+      // }).catch((error: Error) => {
+      //   reject(error);
+      // });
     });
   }
 
