@@ -12,58 +12,38 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">
-        Home
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
   <ion-grid>
-    <ion-row>
+    <ion-row style='display: none;'>
       <ion-col size="12">
-        <div class="masonry bordered">
-          <div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div>
-
-          <div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div>
-          <div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div>
-          <div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div><div class="brick" *ngFor="let post of allPosts | async">
-            <img [src]="post.image.url | async ">
-          </div>
-          
+        {{ allPosts | async }}
+      </ion-col>
+    </ion-row>
+    <!-- <ion-row>
+      <ion-col size="12">
+        <ion-row>
+          <ion-col size="12">
+            <gallery id="basic" *ngIf="imageSrc && media$ | async; let config" [items]="imageSrc"
+              [thumbWidth]="config.thumbWidth" [thumbHeight]="config.thumbHeight"
+              [thumbPosition]="config.thumbPosition">
+            </gallery>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row> -->
+    <ion-row *ngIf="imageSrc">
+      <ion-col class="pins grid">
+        <div class="pin grid-item" *ngFor="let item of imageSrc; let i = index">
+          <a (click)='openGallery()' [lightbox]="i" gallery="lightbox">
+            <img class='grid-image' src="{{ item.data.thumb }}" alt="">
+            <div>
+              <small>{{ i + 1 }}</small>
+            </div>
+          </a>
         </div>
       </ion-col>
+
+
     </ion-row>
   </ion-grid>
 </ion-content>

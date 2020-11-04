@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 import { User } from 'firebase';
 import { Observable, Subscription, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
@@ -31,7 +32,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   allPostsCategories: Category[] = [];
   private subscription: Subscription = new Subscription();
   private routeParamsChange: Subject<void> = new Subject<void>();
-  private postsLanguageChange: Subject<void> = new Subject<void>();
   statistics: { posts?: number, publishedPosts?: number, comments?: number, pages?: number } = {};
   userID;
 
@@ -45,22 +45,33 @@ export class ProfilePage implements OnInit, OnDestroy {
     public modalController: ModalController,
     private router: Router,
     private auth: AuthService,
-    private theme: ThemeService
+    private theme: ThemeService,
+    private storage: Storage
   ) { }
 
-  enableDark() {
-    this.theme.enableDark();
-    // localStorage.setItem('theme', 'dark');
+  enableDark(e) {
+    this.storage.set('theme', 'dark').then(() => {
+      this.theme.enableDark();
+      console.log(e);
+      // e.detail.checked = false;
+    });
   }
-  enableLight() {
-    this.theme.enableLight();
-    // localStorage.setItem('theme', 'light');
+  enableLight(e) {
+    this.storage.set('theme', 'light').then(() => {
+      this.theme.enableLight();
+      console.log(e);
+      // e.detail.checked = true;
+    });
   }
   update(e) {
-    e.detail.checked ? this.enableDark() : this.enableLight();
+    // if (e.detail.checked) {
+    //   return this.enableDark(e);
+    // }
+    // if(!!e.detail.checked){
+    //   this.enableLight(e);
+    // }
+    e.detail.checked ? this.enableDark(e) : this.enableLight(e);
   }
-
-
   navigateToEdit(userId) {
     this.router.navigate(['edit'], {
       queryParams: { "userId": userId }
@@ -106,7 +117,6 @@ export class ProfilePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscription.unsubscribe();
     this.routeParamsChange.next();
-    this.postsLanguageChange.next();
   }
   private getLatestPosts() {
     this.latestPosts = this.posts.getWhereFn(ref => {
@@ -126,11 +136,9 @@ export class ProfilePage implements OnInit, OnDestroy {
         map((posts: Post[]) => {
           return posts.sort((a: Post, b: Post) => b.createdAt - a.createdAt).slice(0, 5);
         }),
-        takeUntil(this.postsLanguageChange),
       );
   }
   onPostsLanguageChange() {
-    this.postsLanguageChange.next();
     this.getLatestPosts();
   }
   private async getStatistics() {

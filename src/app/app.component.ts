@@ -11,6 +11,8 @@ import { UsersService } from './shared/services/collections/users.service';
 import { User } from 'firebase';
 import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { ThemeService } from './shared/services/theme.service';
+import { Storage } from '@ionic/storage';
 const { SplashScreen } = Plugins;
 
 @Component({
@@ -37,15 +39,28 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     public navigation: NavigationService,
     public currentUser: CurrentUserService,
+    private theme: ThemeService,
+    private storage: Storage
   ) {
     this.initializeApp();
-  }  
+  }
   initializeApp() {
     this.platform.ready().then(() => {
       SplashScreen.show({
         showDuration: 2000,
         autoHide: true
       });
+      this.storage.ready().then(() => {
+        this.storage.get('theme').then((theme) => {
+          console.log(theme);
+          if (theme === 'light' || theme === null || theme === undefined) {
+            return this.theme.enableLight();
+          }
+          if (theme === 'dark') {
+            return this.theme.enableDark();
+          }
+        })
+      })
     });
   }
   ngOnInit() {

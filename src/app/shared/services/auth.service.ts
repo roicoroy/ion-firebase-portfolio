@@ -35,23 +35,16 @@ export class AuthService {
     return this.afa.authState.pipe(first(), map((user: firebase.User) => !!user)).toPromise();
   }
 
-  signIn(email: string, password: string, isPersistent: boolean = false): Promise<void> {
-    // console.log('sign in', email, password);
+  signIn(email: string, password: string): Promise<void> {
+    console.log('sign in', email, password);
     return new Promise((resolve, reject) => {
       if (!!this.firebaseUser) {
         console.log('already signed in!');
         this.router.navigateByUrl('home')
         resolve();
       } else {
-        // Sign in
-        const persistence = isPersistent ? auth.Auth.Persistence.LOCAL : auth.Auth.Persistence.SESSION;
-        this.afa.auth.setPersistence(persistence).then(() => {
-          this.afa.auth.signInWithEmailAndPassword(email, password).then(() => {
-            resolve();
-          }).catch((error: firebase.FirebaseError) => {
-            this.setLastError(error);
-            reject(this.lastError);
-          });
+        this.afa.auth.signInWithEmailAndPassword(email, password).then(() => {
+          resolve();
         }).catch((error: firebase.FirebaseError) => {
           this.setLastError(error);
           reject(this.lastError);

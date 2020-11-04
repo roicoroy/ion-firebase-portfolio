@@ -17,9 +17,10 @@ import { GalleryModule } from 'src/app/shared/ng-gallery/src/public-api';
     IonicModule,
     HomePageRoutingModule,
     GalleryModule,
-    LightboxModule.withConfig({
-      keyboardShortcuts: false
-    }),
+    // LightboxModule.withConfig({
+    //   keyboardShortcuts: false
+    // }),
+    LightboxModule
   ],
   declarations: [HomePage]
 })

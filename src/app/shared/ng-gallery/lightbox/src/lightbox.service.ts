@@ -27,8 +27,12 @@ export class Lightbox {
   /** Stream that emits when lightbox is closed */
   closed = new Subject<string>();
 
-  constructor(@Optional() @Inject(LIGHTBOX_CONFIG) config: LightboxConfig, private _gallery: Gallery, private _overlay: Overlay) {
-    this._config = config ? {...defaultConfig, ...config} : defaultConfig;
+  constructor(
+    @Optional() @Inject(LIGHTBOX_CONFIG) config: LightboxConfig,
+    private _gallery: Gallery,
+    private _overlay: Overlay
+  ) {
+    this._config = config ? { ...defaultConfig, ...config } : defaultConfig;
   }
 
   /**
@@ -36,7 +40,7 @@ export class Lightbox {
    * @param config - LightboxConfig
    */
   setConfig(config: LightboxConfig) {
-    this._config = {...this._config, ...config};
+    this._config = { ...this._config, ...config };
   }
 
   /**
@@ -47,7 +51,7 @@ export class Lightbox {
    */
   open(i = 0, id = 'lightbox', config?: LightboxConfig) {
 
-    const _config = config ? {...this._config, ...config} : this._config;
+    const _config = config ? { ...this._config, ...config } : this._config;
 
     const overlayConfig: OverlayConfig = {
       backdropClass: _config.backdropClass,
