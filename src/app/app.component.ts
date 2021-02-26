@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 
@@ -11,12 +11,15 @@ import { UsersService } from './shared/services/collections/users.service';
 import { User } from 'firebase';
 import { Subject, Subscription } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
+import { fadeAnimation } from './app-routing.animations';
 const { SplashScreen } = Plugins;
 
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
-  styleUrls: ['app.component.scss']
+  styleUrls: ['app.component.scss'],
+  animations: [fadeAnimation],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   public selectedIndex = 0;
@@ -26,12 +29,26 @@ export class AppComponent implements OnInit {
       url: '/home',
       icon: 'home'
     },
-    {
-      title: 'Profile',
-      url: '/profile',
-      icon: 'paper-plane'
-    },
+    // {
+    //   title: 'Profile',
+    //   url: '/profile',
+    //   icon: 'paper-plane'
+    // },
   ];
+  public AppCategories = [
+    {
+      id:1,
+      name: 'Local'
+    },
+    {
+      id:2,
+      name: 'Artistic Photos'
+    },
+    {
+      id:3,
+      name: 'Business'
+    }
+  ]
   constructor(
     private platform: Platform,
     private auth: AuthService,

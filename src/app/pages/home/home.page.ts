@@ -70,11 +70,10 @@ export class HomePage implements OnInit, OnDestroy {
             return this.imageSrc;
           });
         });
-        // return this.imageSrc;
+        return this.imageSrc;
       }),
     );
     // return this.allPosts;
-// 
   }
 
   openGallery() {
